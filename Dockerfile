@@ -3,7 +3,8 @@ FROM node:21-alpine AS base
 
 # Install Java (OpenJDK 21), Python, and other required packages
 RUN apk update
-RUN apk add --no-cache openjdk21-jdk python3 py3-pip yarn bash
+RUN apk add --no-cache openjdk21-jdk python3 py3-yaml yarn bash
+#RUN pip3 install pyyaml
 
 # Set environment variables for Java (optional)
 ENV JAVA_HOME=/usr/lib/jvm/java-21-openjdk
@@ -14,8 +15,7 @@ RUN java -version \
     && node --version \
     && npm --version \
     && yarn --version \
-    && python3 --version \
-    && pip3 --version
+    && python3 --version
 
 # Define the working directory for your project
 WORKDIR /workspace

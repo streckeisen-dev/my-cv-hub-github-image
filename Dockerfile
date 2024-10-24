@@ -4,6 +4,7 @@ FROM node:21-alpine AS base
 # Install Java (OpenJDK 21), Python, and other required packages
 RUN apk update
 RUN apk add --no-cache openjdk21-jdk python3 py3-pip yarn bash
+RUN pip3 install pyyaml
 
 # Set environment variables for Java (optional)
 ENV JAVA_HOME=/usr/lib/jvm/java-21-openjdk

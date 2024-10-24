@@ -1,29 +1,30 @@
-# Use an official Ubuntu base image
-FROM ubuntu:22.04
+# Use a lightweight Node.js image based on Alpine Linux
+FROM node:21-alpine AS base
 
-# Set environment variables to prevent interactive prompts during package installations
-ENV DEBIAN_FRONTEND=noninteractive
+# Install Java (OpenJDK 21), Python, and other required packages
+RUN apk update
+RUN apk add --no-cache openjdk21-jdk python3 py3-pip yarn bash
 
-# Install necessary tools and dependencies
-RUN apt-get update && apt-get install -y \
-    curl \
-    gnupg2 \
-    software-properties-common \
-    && add-apt-repository ppa:openjdk-r/ppa -y \
-    && apt-get update && apt-get install -y openjdk-21-jdk \
-    && apt-get install -y python3-pip \
-    && apt-get install -y nodejs npm \
-    && npm install -g n \
-    && n 21.0.0 \
-    && apt-get install -y nodejs \
-    && pip3 install pyyaml \
-    && apt-get clean && rm -rf /var/lib/apt/lists/*
+# Set environment variables for Java (optional)
+ENV JAVA_HOME=/usr/lib/jvm/java-21-openjdk
+ENV PATH="$JAVA_HOME/bin:$PATH"
 
 # Verify installations
-RUN java -version && python3 --version && node -v
+RUN java -version \
+    && node --version \
+    && npm --version \
+    && yarn --version \
+    && python3 --version \
+    && pip3 --version
 
-# Set the default workdir
+# Define the working directory for your project
 WORKDIR /workspace
 
-# Set default shell
+# Copy your project files into the container (useful for build processes)
+COPY . .
+
+# Optional: Run your build commands (e.g., npm install, etc.)
+# RUN npm install && npm run build
+
+# Default command (can be overridden in your CI/CD pipeline)
 CMD ["/bin/bash"]

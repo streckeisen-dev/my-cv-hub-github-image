@@ -1,5 +1,5 @@
 # Use a lightweight Node.js image based on Alpine Linux
-FROM node:21-alpine AS base
+FROM node:22-alpine AS base
 
 # Install Java (OpenJDK 21), Python, and other required packages
 RUN apk update

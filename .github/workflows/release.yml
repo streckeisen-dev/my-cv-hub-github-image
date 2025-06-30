@@ -30,6 +30,6 @@ jobs:
       - name: Push Docker image
         run: |
           VERSION=${GITHUB_REF#refs/tags/}
-          docker tag lstreckeisen/my-cv-github-image:${VERSION} lstreckeisen/my-cv-github-image:latest
+          docker tag lstreckeisen/my-cv-github-image:latest lstreckeisen/my-cv-github-image:${VERSION}
           docker push lstreckeisen/my-cv-github-image:${VERSION}
           docker push lstreckeisen/my-cv-github-image:latest

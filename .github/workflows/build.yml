@@ -16,25 +16,13 @@ jobs:
     
     - name: Build Docker image
       id: build
-      run: |
-        # Determine the version
-        if [[ "${{ github.ref }}" == refs/tags/* ]]; then
-          VERSION=${GITHUB_REF#refs/tags/}  # Get version from the tag
-        else
-          VERSION="latest"  # Use latest for main branch
-        fi
-
-        # Build the Docker image
-        docker build -t lstreckeisen/my-cv-github-image:${VERSION} .
-
-        # Set the output version for later steps
-        # echo "version=${VERSION}" >> $GITHUB_ENV
+      run: docker build -t lstreckeisen/my-cv-github-image:latest .
 
     - name: Save Docker Image
-      run: docker save lstreckeisen/my-cv-github-image:${VERSION} | gzip > docker_image.tar.gz
+      run: docker save lstreckeisen/my-cv-github-image:latest -o docker_image.tar
 
     - name: Upload docker artifact
       uses: actions/upload-artifact@v4
       with:
         name: docker-artifact
-        path: ./docker_image.tar.gz
+        path: ./docker_image.tar

@@ -19,7 +19,7 @@ jobs:
           name: docker-artifact
 
       - name: Load Docker image
-        run: docker load < docker_image.tar
+        run: docker load -i docker_image.tar
 
       - name: Log in to DockerHub
         uses: docker/login-action@v3

@@ -1,0 +1,31 @@
+name: Docker build
+
+on:
+  push:
+    branches:
+      - '**'
+  workflow_call:
+
+jobs:  
+  docker-build:
+    name: Docker Build
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Build Docker image
+      id: build
+      run: |
+        # Determine the version
+        if [[ "${{ github.ref }}" == refs/tags/* ]]; then
+          VERSION=${GITHUB_REF#refs/tags/}  # Get version from the tag
+        else
+          VERSION="latest"  # Use latest for main branch
+        fi
+
+        # Build the Docker image
+        docker build -t lstreckeisen/my-cv-github-image:${VERSION} .
+
+        # Set the output version for later steps
+        # echo "version=${VERSION}" >> $GITHUB_ENV

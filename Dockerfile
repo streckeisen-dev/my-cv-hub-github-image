@@ -13,9 +13,12 @@ ENV PATH="$JAVA_HOME/bin:$PATH"
 # Verify installations
 RUN java -version \
     && node --version \
+    && corepack --version \
     && npm --version \
     && yarn --version \
     && python3 --version
+
+RUN corepack enable
 
 # Define the working directory for your project
 WORKDIR /workspace

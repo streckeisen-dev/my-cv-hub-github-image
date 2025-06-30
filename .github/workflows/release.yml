@@ -13,6 +13,14 @@ jobs:
     runs-on: ubuntu-latest
     needs: release-build
     steps:
+      - name: Download artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: docker-artifact
+
+      - name: Load Docker image
+        run: gunzip -c docker_image.tar.gz | docker load
+
       - name: Log in to DockerHub
         uses: docker/login-action@v3
         with:
